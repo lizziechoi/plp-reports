@@ -2,6 +2,7 @@ SELECT
   students.summit_id, 
   students.first_name as student_first, 
   students.last_name as student_last,
+  students.grade_level,
   sites.name as school,
   authors.first_name as author_first,
   authors.last_name as author_last,
