@@ -1,4 +1,5 @@
 SELECT 
+  -- count(*)
   students.summit_id, 
   students.first_name as student_first, 
   students.last_name as student_last,
@@ -14,8 +15,8 @@ SELECT
   entries.completed_at,
   entries.created_at
 FROM reflection_log_entries as entries
-JOIN users as students ON entries.student_id = students.id
-JOIN reflection_log_prompts as prompts ON prompts.id = entries.reflection_log_prompt_id
-JOIN sites ON students.site_id = sites.id
-JOIN users as mentors ON students.mentor_id = mentors.id
+LEFT OUTER JOIN users as students ON entries.student_id = students.id
+LEFT OUTER JOIN reflection_log_prompts as prompts ON prompts.id = entries.reflection_log_prompt_id
+LEFT OUTER JOIN sites ON students.site_id = sites.id
+LEFT OUTER JOIN users as mentors ON students.mentor_id = mentors.id
 ;
