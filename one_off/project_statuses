@@ -1,0 +1,21 @@
+select
+	students.summit_id,
+	students.last_name,
+	students.first_name,
+	pa.project_id,
+	projects.id,
+	pa.student_id,
+	students.id,
+	mentors.last_name,
+	mentors.first_name,
+	students.grade_level,
+	projects.name,
+	assigner.last_name as assigner_last_name,
+	pa.status,
+	pa.score
+from project_assignments as pa
+join users as students on students.id = pa.student_id
+join projects on pa.project_id = projects.id
+join users as mentors on mentors.id = students.mentor_id
+join users as assigner on assigner.id = pa.assigned_by_id
+order by pa.project_id asc
