@@ -1,14 +1,18 @@
 select 
-users.summit_id,
-users.first_name,
-users.last_name,
+students.summit_id,
+students.first_name,
+students.last_name,
 sites.name,
 reflection_log_entries.contents,
 reflection_log_entries.created_at,
-reflection_log_entries.updated_at
+reflection_log_entries.updated_at,
+mentors.first_name as mentor_first,
+mentors.last_name as mentor_last,
+mentors.id as mentor_id
 from reflection_log_entries
-inner join users
-on reflection_log_entries.student_id=users.id
+inner join users as students 
+on reflection_log_entries.student_id= students.id
 inner join sites
-on sites.id = users.site_id
-order by created_at asc
+on sites.id = students.site_id
+inner join users as mentors on mentors.id = students.mentor_id
+order by mentor_first, mentor_last
