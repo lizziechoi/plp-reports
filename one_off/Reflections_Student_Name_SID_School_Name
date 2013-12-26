@@ -1,0 +1,17 @@
+select 
+reflection_log_entries.id,
+reflection_log_entries.contents,
+reflection_log_entries.student_id,
+reflection_log_entries.created_at,
+reflection_log_entries.updated_at,
+users.id,
+users.first_name,
+users.last_name,
+users.summit_id,
+sites.name
+from reflection_log_entries
+inner join users
+on reflection_log_entries.student_id=users.id
+inner join sites
+on sites.id = users.site_id
+order by created_at asc
