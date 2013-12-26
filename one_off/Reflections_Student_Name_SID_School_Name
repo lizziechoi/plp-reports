@@ -1,14 +1,11 @@
 select 
-reflection_log_entries.id,
-reflection_log_entries.contents,
-reflection_log_entries.student_id,
-reflection_log_entries.created_at,
-reflection_log_entries.updated_at,
-users.id,
+users.summit_id,
 users.first_name,
 users.last_name,
-users.summit_id,
-sites.name
+sites.name,
+reflection_log_entries.contents,
+reflection_log_entries.created_at,
+reflection_log_entries.updated_at
 from reflection_log_entries
 inner join users
 on reflection_log_entries.student_id=users.id
