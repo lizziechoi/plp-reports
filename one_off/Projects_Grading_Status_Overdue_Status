@@ -1,0 +1,35 @@
+select 
+	students.summit_id,
+	students.last_name,
+	students.first_name,
+	sites.name as school,
+	students.grade_level,
+	mentors.last_name as mentor_last,
+	
+	assigners.last_name as teacher,
+	projects.name as project,
+	pa.score,
+	pa.score >= 70 as passed,
+	pa.submitted_on is null as still_overdue,
+	case
+		when pa.submitted_on is null then now( ) - pa.due_on
+		else pa.submitted_on - pa.due_on 
+		end as number_of_days_late,
+	case 
+		when pa.scored_on <= Now( ) and pa.submitted_on <=Now() then 'Graded' 
+		when pa.submitted_on is null and pa.due_on<= now( ) then 'Not Submitted Yet' 
+		when pa.due_on > Now( ) then 'Not Due Yet' 
+		else 'Not Graded But Should Be' 
+		end as grading_status,
+	pa.scored_on - pa.submitted_on as days_it_took_to_grade, 
+	pa.due_on,
+	pa.submitted_on,
+	pa.scored_on,
+	pa.status
+ from project_assignments as pa
+ join projects on projects.id = pa.project_id
+ join users as students on students.id = pa.student_id
+ join users as mentors on mentors.id = students.mentor_id
+ join sites on sites.id = students.site_id
+ join users as assigners on assigners.id = pa.assigned_by_id
+ order by students.summit_id
