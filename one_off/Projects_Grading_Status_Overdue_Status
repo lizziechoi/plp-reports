@@ -11,10 +11,7 @@ select
 	pa.score,
 	pa.score >= 70 as passed,
 	pa.submitted_on is null as still_overdue,
-	case
-		when pa.submitted_on is null then now( ) - pa.due_on
-		else pa.submitted_on - pa.due_on 
-		end as number_of_days_late,
+	pa.submitted_on - pa.due_on as number_of_days_late,
 	case 
 		when pa.scored_on <= Now( ) and pa.submitted_on <=Now() then 'Graded' 
 		when pa.submitted_on is null and pa.due_on<= now( ) then 'Not Submitted Yet' 
