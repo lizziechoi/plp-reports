@@ -1,9 +1,9 @@
 select
 students.summit_id as student_id,
 students.last_name as student_last,
--- students.first_name as student_first,
--- mentors.last_name as mentor_last,
--- mentors.first_name as mentor_first,
+students.first_name as student_first,
+mentors.last_name as mentor_last,
+mentors.first_name as mentor_first,
 assigners.last_name as assigner_last,
 projects.name as project_name,
 pa.due_on,
