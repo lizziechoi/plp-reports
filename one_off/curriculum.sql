@@ -16,6 +16,7 @@ inner join (
   inner join project_know_dos as pkds on pkds.project_id = projects.id
   inner join know_dos as kds on pkds.know_do_id = kds.id
   group by kds.id) as projects_by_kd on kd_id = kds.id
+where courses.shadow = false
 order by subjects.name, courses.sequence, kds.sequence
 ;
 
