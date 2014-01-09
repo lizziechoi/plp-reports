@@ -12,6 +12,6 @@ left outer join (
   where ckds.power = false
   group by course_id
 ) as addl_counts on addl_counts.course_id = courses.id
--- where power_count is null OR addl_count is null
+where power_count is null OR addl_count is null
 order by sequence, shadow, subject_id
 ;
