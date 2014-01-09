@@ -4,11 +4,18 @@ select
   subjects.name as subject_name,
   kds.name as focus_area_name,
   kds.url as focus_area_url,
-  ckds.power as is_required
+  ckds.power as is_required,
+  project_names
 from courses
 inner join subjects on subjects.id = courses.subject_id
 inner join course_know_dos as ckds on ckds.course_id = courses.id
 inner join know_dos as kds on kds.id = ckds.know_do_id
+inner join (
+  select kds.id as kd_id, array_to_string(array_agg(projects.name), '; ') as project_names
+  from projects
+  inner join project_know_dos as pkds on pkds.project_id = projects.id
+  inner join know_dos as kds on pkds.know_do_id = kds.id
+  group by kds.id) as projects_by_kd on kd_id = kds.id
 order by subjects.name, courses.sequence, kds.sequence
 ;
 
