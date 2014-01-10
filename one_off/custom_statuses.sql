@@ -13,7 +13,8 @@ SELECT
   mentors.last_name as mentor_last,
   projects.name as project_name,
   pacs.msg as message,
-  pacs.created_at as status_created_at
+  pacs.created_at as status_created_at,
+  pas.id as project_assignment_id  
 FROM project_assignment_custom_statuses as pacs
 LEFT OUTER JOIN users as authors ON pacs.author_id = authors.id
 LEFT OUTER JOIN project_assignments as pas ON pacs.project_assignment_id = pas.id
