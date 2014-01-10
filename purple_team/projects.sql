@@ -20,6 +20,10 @@ SELECT
   
   -- For projects that have been turned in, how long were they overdue by
   (pas.submitted_on - pas.due_on) as days_overdue_by,
+  
+  -- TODO: number of teachers caught up on grading:
+  --    # days between projected turned in and project graded (10 or fewer ungraded)
+  --    #/% of projects with >X day turnaround
 
   students.first_name as student_first, 
   students.last_name as student_last,
