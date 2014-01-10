@@ -15,11 +15,11 @@ SELECT
   -- (pas.scored_on is null and submitted_on is not null) as alt_turned_in_but_not_scored,
   
   -- These are projects that are not yet turned in, and for which the due date has passed
-  (cast(now() as date) > pa.due_on) as currently_overdue,
-  (cast(now() as date) - pa.due_on) as days_currently_overdue_by,
+  (cast(now() as date) > pas.due_on) as currently_overdue,
+  (cast(now() as date) - pas.due_on) as days_currently_overdue_by,
   
   -- For projects that have been turned in, how long were they overdue by
-  (pa.submitted_on - pa.due_on) as days_overdue_by,
+  (pas.submitted_on - pas.due_on) as days_overdue_by,
 
   students.first_name as student_first, 
   students.last_name as student_last,
