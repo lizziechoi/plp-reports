@@ -11,6 +11,7 @@ SELECT
   mentors.first_name as mentor_first,
   mentors.last_name as mentor_last,
   projects.name as project_name,
+  pacs.status as status,
   pacs.msg as message,
   pacs.created_at as status_created_at,
   pas.id as project_assignment_id  
