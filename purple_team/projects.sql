@@ -10,20 +10,22 @@ SELECT
   -- This includes projects that have been graded but which cannot be turned into a grade by the PLP  
   (pas.raw_score is null and pas.status in ('rating','performed','scored','inRevision'))::int as turned_in_but_not_scored,
   
-  -- ProjectAssignments.submitted_on will only be populated when the teacher has also scored the project.
-  -- ShowEvidence will fix this by adding SubmitDate to the assignment statuses file
-  -- (pas.scored_on is null and submitted_on is not null) as alt_turned_in_but_not_scored,
+  (pas.scored_on is null and submitted_on is not null) as alt_turned_in_but_not_scored,
   
   -- These are projects that are not yet turned in, and for which the due date has passed
   (cast(now() as date) > pas.due_on) as currently_overdue,
   (cast(now() as date) - pas.due_on) as days_currently_overdue_by,
   
   -- For projects that have been turned in, how long were they overdue by
-  (pas.submitted_on - pas.due_on) as days_overdue_by,
-  
-  -- TODO: number of teachers caught up on grading:
-  --    # days between projected turned in and project graded (10 or fewer ungraded)
-  --    #/% of projects with >X day turnaround
+  (pas.submitted_on - pas.due_on) as days_overdue_by_for_turned_in_projects,
+
+  pas.scored_on - pas.submitted_on as days_to_grade_for_graded_projects,
+
+  -- Days btwn student turned in and when (teacher graded it, or today if not graded yet)
+  coalesce(  pas.scored_on, cast(now() as date)) - pas.submitted_on as days_to_grade_incl_ungraded,
+  coalesce(
+    coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on
+  , 0) < 14 as graded_within_2_weeks,
 
   students.first_name as student_first, 
   students.last_name as student_last,
@@ -41,6 +43,3 @@ LEFT OUTER JOIN projects on pas.project_id = projects.id
 LEFT OUTER JOIN users as assigners ON pas.assigned_by_id = assigners.id
 LEFT OUTER JOIN users as mentors ON students.mentor_id = mentors.id
 ;
-
--- Bug test: this should not be empty
-select id from project_assignments where scored_on is null and submitted_on is not null;
