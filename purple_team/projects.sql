@@ -22,10 +22,8 @@ SELECT
   pas.scored_on - pas.submitted_on as days_to_grade_for_graded_projects,
 
   -- Days btwn student turned in and when (teacher graded it, or today if not graded yet)
-  coalesce(  pas.scored_on, cast(now() as date)) - pas.submitted_on as days_to_grade_incl_ungraded,
-  coalesce(
-    coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on
-  , 0) < 14 as graded_within_2_weeks,
+  coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on as days_to_grade_incl_ungraded,
+  coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on < 14 as graded_within_2_weeks
 
   students.first_name as student_first, 
   students.last_name as student_last,
