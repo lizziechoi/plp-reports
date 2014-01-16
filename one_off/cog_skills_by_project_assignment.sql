@@ -1,37 +1,28 @@
-select 
-  students.summit_id as Student_ID,
-  students.first_name as Student_First,
-  students.last_name as Student_Last,
-  sites.name as School,
-  students.grade_level as Grade_Level,
-  courses.name as Course,
-  subjects.name as Subject,
-  mentors.first_name as Mentor_First,
-  mentors.last_name as Mentor_Last,
-
-  pgs.projected_on as As_Of,
-  pgs.project_pcnt as Projected_Overall_Score,
-  pgs.power_on_track as On_Track_for_Power,
-  pgs.addl_pcnt as Additional_Focus_Areas,
-  pgs.created_at,
-  pgs.updated_at,
-  pgs.overall_score as Overall_Score,
-  pgs.letter_grade as Letter_Grade,
-  pgs.num_projects_graded,
-  pgs.num_projects_overdue,
-  pgs.num_projects_turned_in,
-  pgs.num_projects_total,
-  pgs.num_projects_below_70,
-  pgs.num_projects_ungraded,
-  pgs.num_projects_in_revision,
-  pgs.power_pcnt
-
-from projected_grades as pgs
-left outer join course_assignments as cas on cas.id = pgs.course_assignment_id
-left outer join courses on courses.id = cas.course_id
-left outer join subjects on subjects.id = courses.subject_id
-left outer join users as students on students.id = cas.student_id
-left outer join users as mentors on mentors.id = students.mentor_id
-left outer join sites on students.site_id = sites.id
-order by sites.name
+SELECT 
+  students.summit_id as student_id, 
+  students.first_name as student_first, 
+  students.last_name as student_last,
+  projects.name as project_name,
+  csds.name as cog_skil_domain,
+  pads.score as cog_skill_domain_score,
+  pas.due_on,
+  pas.status,
+  pas.score,
+  pas.raw_score,
+  pas.submitted_on,
+  pas.scored_on,
+  students.grade_level,
+  sites.name as school,
+  assigners.first_name as assigner_first,
+  assigners.last_name as assigner_last,
+  mentors.first_name as mentor_first,
+  mentors.last_name as mentor_last
+FROM project_assignment_domain_scores as pads
+INNER JOIN project_assignments as pas on pas.id = pads.project_assignment_id
+INNER JOIN cog_skill_domains as csds on csds.id = pads.cog_skill_domain_id
+INNER JOIN users as students ON pas.student_id = students.id
+INNER JOIN sites ON students.site_id = sites.id
+LEFT OUTER JOIN projects on pas.project_id = projects.id
+LEFT OUTER JOIN users as assigners ON pas.assigned_by_id = assigners.id
+LEFT OUTER JOIN users as mentors ON students.mentor_id = mentors.id
 ;
