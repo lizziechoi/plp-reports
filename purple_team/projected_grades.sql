@@ -10,7 +10,7 @@ select
   mentors.last_name as Mentor_Last,
 
   pgs.projected_on as As_Of,
-  pgs.project_pcnt as Projected_Overall_Score,
+  pgs.project_pcnt as project_pcnt,
   pgs.power_on_track as On_Track_for_Power,
   pgs.addl_pcnt as Additional_Focus_Areas,
   pgs.created_at,
