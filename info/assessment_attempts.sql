@@ -24,5 +24,7 @@ WHERE
   course_know_dos.know_do_id=know_dos.id AND
   assessment_takes.student_id = users.id and 
   courses.subject_id = subjects.id and 
-  users.summit_id > 9999
+  users.summit_id > 9999 and
+  users.type = 'Student' and
+  users.last_leave_on > now()
 ;
