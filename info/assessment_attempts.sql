@@ -7,7 +7,10 @@ SELECT
   assessment_takes.num_correct, 
   assessment_takes.num_possible,
   know_dos.pcnt_to_pass,
-  users.summit_id
+  users.last_leave_on > now() as "Is Currently Enrolled?",
+  users.summit_id,
+  users.first_name,
+  users.last_name
 FROM 
   course_assignments, 
   assessment_takes, 
@@ -25,6 +28,5 @@ WHERE
   assessment_takes.student_id = users.id and 
   courses.subject_id = subjects.id and 
   users.summit_id > 9999 and
-  users.type = 'Student' and
-  users.last_leave_on > now()
+  users.type = 'Student'
 ;
