@@ -57,6 +57,7 @@ join users as students on students.id = ats.student_id
 left outer join sites on students.site_id = sites.id
 where students.summit_id > 9999
 and students.type = 'Student'
+order by students.summit_id, kds.id, ats.taken_at
 ;
 
 
