@@ -35,18 +35,18 @@ courses.subject_id = subjects.id and
 select
   courses.name as "course name",
   subjects.name as "subject name",
-  know_dos.name as "focus area name",
-  assessment_takes.taken_at,
+  kds.name as "focus area name",
+  ats.taken_at,
   ckds.power,
-  assessment_takes.num_correct,
-  assessment_takes.num_possible,
+  ats.num_correct,
+  ats.num_possible,
   (ats.num_correct / cast(ats.num_possible as float)) as pcnt_correct,
-  (ats.num_correct / cast(ats.num_possible as float)) >= kds.pcnt_to_pass as passed
-  know_dos.pcnt_to_pass,
-  users.last_leave_on > now() as "is currently enrolled?",
-  users.summit_id,
-  users.first_name,
-  users.last_name,
+  (ats.num_correct / cast(ats.num_possible as float)) >= kds.pcnt_to_pass as passed,
+  kds.pcnt_to_pass,
+  students.last_leave_on > now() as "is currently enrolled?",
+  students.summit_id,
+  students.first_name,
+  students.last_name,
   sites.name as school
 from assessment_takes as ats
 join know_dos as kds on ats.know_do_id = kds.id
