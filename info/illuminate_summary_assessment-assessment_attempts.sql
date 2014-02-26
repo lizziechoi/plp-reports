@@ -1,13 +1,13 @@
 COPY (
   (select 
-    courses.name as "course name",
-    kds.name as "focus area name",
-    ats.taken_at,
-    ckds.power,
-    ats.num_correct,
-    ats.num_possible,
+    courses.name as "Course Name",
+    kds.name as "Focus Area Name",
+    ats.taken_at as "Date Taken",
+    ckds.power as "Is Power?",
+    ats.num_correct as "Num Correct",
+    ats.num_possible as "Num Possible",
     (ats.num_correct / cast(ats.num_possible as float)) >= kds.pcnt_to_pass as "Mastered?",
-    students.summit_id,
+    students.summit_id as "Student ID",
     students.first_name,
     students.last_name,
     null as reason
@@ -22,14 +22,14 @@ COPY (
   )
   UNION ALL
   (select 
-    courses.name as "course name",
-    kds.name as "focus area name",
-    null as "taken_at",
-    ckds.power,
-    null as "num_correct",
-    null as "num_possible",
+    courses.name as "Course Name",
+    kds.name as "Focus Area Name",
+    null as "Date Taken",
+    ckds.power as "Is Power?",
+    null as "Num Correct",
+    null as "Num Possible",
     true as "Mastered?",
-    students.summit_id,
+    students.summit_id as "Student ID",
     students.first_name,
     students.last_name,
     kdms.reason
@@ -44,5 +44,5 @@ COPY (
   and kdms.reason != 'illuminate'
   )
 )
-TO '/Users/sam/Desktop/takes.csv' (format csv)
+TO STDOUT (format csv, HEADER TRUE)
 ;
