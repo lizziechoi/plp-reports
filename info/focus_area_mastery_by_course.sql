@@ -1,3 +1,5 @@
+-- Every focus area we require of a student and whether they've mastered it yet
+
 select 
   courses.name as "course name",
   kds.name as "focus area name",
