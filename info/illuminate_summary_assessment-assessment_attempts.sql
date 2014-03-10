@@ -1,5 +1,6 @@
 COPY (
   (select 
+    students.summit_id as "Student ID",
     courses.name as "Course Name",
     kds.name as "Focus Area Name",
     ats.taken_at as "Date Taken",
@@ -7,7 +8,6 @@ COPY (
     ats.num_correct as "Num Correct",
     ats.num_possible as "Num Possible",
     (ats.num_correct / cast(ats.num_possible as float)) >= kds.pcnt_to_pass as "Mastered?",
-    students.summit_id as "Student ID",
     students.first_name,
     students.last_name,
     null as reason
@@ -19,9 +19,13 @@ COPY (
   left outer join assessment_takes as ats 
     on ats.know_do_id = kds.id and ats.student_id = students.id
   where students.type = 'Student'
+    and students.last_leave_on > now()
+    and students.site_id != 7 -- SPS Demo
+  
   )
   UNION ALL
   (select 
+    students.summit_id as "Student ID",
     courses.name as "Course Name",
     kds.name as "Focus Area Name",
     null as "Date Taken",
@@ -29,7 +33,6 @@ COPY (
     null as "Num Correct",
     null as "Num Possible",
     true as "Mastered?",
-    students.summit_id as "Student ID",
     students.first_name,
     students.last_name,
     kdms.reason
@@ -41,7 +44,9 @@ COPY (
   join know_do_masteries as kdms 
     on kdms.know_do_id = kds.id and kdms.student_id = students.id
   where students.type = 'Student'
-  and kdms.reason != 'illuminate'
+    and kdms.reason != 'illuminate'
+    and students.last_leave_on > now()
+    and students.site_id != 7 -- SPS Demo
   )
 )
 TO STDOUT (format csv, HEADER TRUE)
