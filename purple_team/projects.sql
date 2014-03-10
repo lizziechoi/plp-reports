@@ -24,6 +24,9 @@ SELECT
   -- Days btwn student turned in and when (teacher graded it, or today if not graded yet)
   coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on as days_to_grade_incl_ungraded,
   coalesce(pas.scored_on, cast(now() as date)) - pas.submitted_on < 14 as graded_within_2_weeks,
+  
+  cast(now() as date) - pas.due_on < 14 as due_last_2_weeks,
+  (cast(now() as date) - pas.due_on < 14) AND pas.status in ('rating','performed','scored','inRevision') as due_last_2_weeks_and_turned_in,
 
   students.first_name as student_first, 
   students.last_name as student_last,
