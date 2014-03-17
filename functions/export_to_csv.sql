@@ -1,3 +1,5 @@
-\copy (
+COPY (
   -- table goes here
-) to '/Users/sam/Desktop/out.csv' DELIMITER ',' CSV HEADER;
+)
+TO STDOUT (format csv, HEADER TRUE)
+;
