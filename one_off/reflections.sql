@@ -39,6 +39,7 @@ SELECT
   entries.contents as reflection_contents,
   prompts.message as prompt,
   entries.entry_type,
+  tags.tag_string as tag_list,  
   entries.due_on,
   entries.completed,
   entries.completed_at,
@@ -47,5 +48,14 @@ FROM reflection_log_entries as entries
 LEFT OUTER JOIN users as reflectors ON entries.user_id = reflectors.id
 LEFT OUTER JOIN reflection_log_prompts as prompts ON prompts.id = entries.reflection_log_prompt_id
 LEFT OUTER JOIN sites ON reflectors.default_site_id = sites.id
+LEFT OUTER JOIN (
+  select 
+    entries.id as entry_id,
+    array_to_string(array_agg(tags.name),'; ') as tag_string
+  from reflection_log_entries as entries
+  left outer join reflection_log_entry_reflection_log_tags as entry_tags on entry_tags.reflection_log_entry_id = entries.id
+  left outer join reflection_log_tags as tags on entry_tags.reflection_log_tag_id = tags.id
+  group by entries.id
+) as tags on tags.entry_id = entries.id
 where reflectors.type = 'Teacher'
 ;
