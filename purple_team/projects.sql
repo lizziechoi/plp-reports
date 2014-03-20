@@ -6,6 +6,7 @@ SELECT
   pas.raw_score,
   pas.submitted_on,
   pas.scored_on,
+  pas.exempted,
 
   -- This includes projects that have been graded but which cannot be turned into a grade by the PLP  
   (pas.raw_score is null and pas.status in ('rating','performed','scored','inRevision'))::int as turned_in_but_not_scored,
