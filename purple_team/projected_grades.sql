@@ -24,6 +24,7 @@ select
   pgs.num_projects_below_70,
   pgs.num_projects_ungraded,
   pgs.num_projects_in_revision,
+  pgs.num_projects_exempted,
   pgs.power_pcnt
 
 from projected_grades as pgs
