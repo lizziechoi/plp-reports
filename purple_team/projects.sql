@@ -1,5 +1,6 @@
 SELECT 
   students.summit_id, 
+  students.last_leave_on > now() as "is currently enrolled?",
   pas.due_on,
   pas.status,
   pas.score,
